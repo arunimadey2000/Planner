@@ -42,7 +42,7 @@ class NewCategoryViewController: UIViewController {
     @IBOutlet weak var carnationButton: UIButton!
     
     var color: UIColor = UIColor.white
-    var category = ""
+    var category = Category.init(r: 0.0, g: 0.0, b: 0.0, name: "");
     
     var r: CGFloat = 0.0
     var g: CGFloat = 0.0
@@ -54,11 +54,18 @@ class NewCategoryViewController: UIViewController {
         super.viewDidLoad()
 
         self.categoryView.layer.cornerRadius = 5
+        textField.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
         // Do any additional setup after loading the view.
     }
     
+    @objc func enterPressed(){
+        //do something with typed text if needed
+        textField.resignFirstResponder()
+    }
+    
     @IBAction func donePressed(_ sender: UIButton) {
-        category = textField.text!
+        let newCat = Category(r: self.r, g: self.g, b: self.b, name: textField.text!);
+        self.category = newCat;
     }
     
     @IBAction func cayennePressed(_ sender: UIButton) {
@@ -277,6 +284,8 @@ class NewCategoryViewController: UIViewController {
         colorSelected = true
     }
     
+    
+    
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        let destVC: FirstViewController = segue.destination as! FirstViewController
 //        destVC.categoryTemp = self.category
@@ -286,19 +295,24 @@ class NewCategoryViewController: UIViewController {
 //        destVC.b = self.b
 //
 //    }
+    func confirmUniqeCategory(){
+        
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let barVC = segue.destination as? UITabBarController {
             barVC.viewControllers?.forEach {
                 if let destVC = $0 as? FirstViewController{
-                    destVC.categoryTemp = self.category
-                    destVC.colorTemp = self.color
-                    
-                    destVC.rT = self.r
-                    destVC.gT = self.g
-                    destVC.bT = self.b
-                    
-                    destVC.colorSelected = self.colorSelected
+                    print("we are preparing for segue and the number of categories: ", destVC.categoryArr.count);
+                    //destVC.categoryArr.append(self.category)
+                    destVC.catTemp = self.category
+//                    destVC.colorTemp = self.color
+//                    
+//                    destVC.rT = self.r
+//                    destVC.gT = self.g
+//                    destVC.bT = self.b
+//                    
+//                    destVC.colorSelected = self.colorSelected
                     
                 }
             }

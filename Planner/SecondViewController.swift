@@ -15,21 +15,37 @@ class SecondViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var b = 0
-    
+    var categoryArr = [Category]()
+    var eventArr = [Event]()
     var times = [String]()
     var i = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(times);
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.reloadData()
+        print("the number of categories: ", categoryArr.count)
     }
 
     @IBAction func addButtonPressed(_ sender: UIButton) {
-        i+=1
-        times.append("\(i)")
-        tableView.reloadData()
+//        i+=1
+//        times.append("\(i)")
+//        tableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        /*let destVC: AddEventViewController = segue.destination as! AddEventViewController
+        destVC.times = times;*/
+        if let destVC = segue.destination as? AddEventViewController {
+            destVC.category = self.categoryArr
+            destVC.startedFromFirst = false
+            
+        }
+        
+            
+
     }
     
 }
